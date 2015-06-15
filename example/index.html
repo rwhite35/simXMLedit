@@ -1,0 +1,95 @@
+<?php
+/**
+* ABOUT ME VIEWER
+*/
+include 'controller.php';
+include '../lib/nav.php';
+$parent = basename(__DIR__);
+$date = date('Y-m-d',time());
+$logintoken = hash("md5", $date.strtoupper($parent)); //requires php5
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Ron White - Web Developer, Guitarist, A Good Guy</title>
+	<meta charset="UTF-8">
+	<meta name="description" content="Ron White is a web developer and software engineer spanning 18 years of development and systems administration work.">
+	<meta name="keywords" content="LAMP, MAMP, OpenSource, Software-as-a-Service, Web Application, On-Demand, Enterprise, Software, Engineering, Development">
+	<meta name="ROBOTS" content="INDEX, FOLLOW">
+	<link rel="shortcut icon" href="/favicon.ico" type="../images/x-icon">
+	<link rel="icon" href="/favicon.ico" type="../images/x-icon">
+	
+	<!--force mobile devices to use device-width instead of man/max-width which is for desktop
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait)" href="../css/mobile.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape)" href="../css/tablet.css" />
+	-->
+	
+	<link type="text/css" rel="stylesheet" href="../css/style.css">
+	<link type="text/css" rel="stylesheet" href="../css/acord_menu.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+ 	<script type="text/javascript" language="javascript">
+  	$(document).ready(function() {
+ 		//slides "menu_body" when p element with class "menu_head" is clicked
+		$("#menu p.menu_head").click(function()
+		{
+    	$(this).css({
+    		backgroundImage:"url(../images/down.png)"}).next("div.menu_body").slideToggle(600)
+    		$(this).text($(this).text() == '{ Show Links }' ? '{ Hide Links }' : '{ Show Links }');
+    		return false;	
+    	});
+    	/* TOGGLE LOGIN */
+	  	$('#login').hide();
+	  	$('#show_login').click(function() {	  	
+		  $('#login').toggle();
+	  	  return false;
+	  	});
+  	});
+ 	</script>
+</head>
+<body>
+<div id="outline">
+  <div id="menu" class="menu_list">
+  	<p class="menu_head">{ Show Links }</p>
+  	<?php
+		$navigation = new mainnav();
+		$navigation->navigate();
+	?>
+   	</div>
+	<img src="../images/gradient.jpg" alt="" height="304" width="800" border="0" />
+	<div id="title">
+		<img class="portrait" src="../images/c_logo.jpg" alt="Ron D White, Software and Web Developemnt" border=0><!--<div class="title"></div>--></div>
+		<div id="caption">
+		<h1>We're on a Mission:<br>Providing Balance Between People, Process and Technology</h1>
+		</div>
+	<div id="text">
+		<p><?php echo $content?></p>  
+</div>
+</div>
+</body>
+<footer><div id="footer"><button id="show_login">Login</button></div></footer>
+
+<!--PAGE LOGIN, must be in body tag-->
+  <div id="login" style="position:absolute;top:200px;left:300px">
+   <div style="padding-left:10px;">
+	<div id="formstext">
+	  <form action="../cms/router.php" method="post">
+      <table class="admin_login">
+      	  <tr>
+      	  	<th class="caption" colspan="2">Enter login to edit page.</th></tr>
+		  <tr>
+    		<td class="cellsL">User Name:</td><td width="50%"><input type="text" name="user_name" /></td></tr>
+    	  <tr>
+    		<td class="cellsL">Password:</td><td width="50%"><input type="password" name="user_pass" />
+	    	<input type="hidden" name="parent" value="<?php echo $parent?>">
+    	    <input type="hidden" name="token" value="<?php echo $logintoken?>"></td></tr>
+		  <tr>
+    		<td class="cells">&nbsp;</td>
+    		<td><input class="button buttontxt" type="Submit" value="Log In" onmouseover="this.className='button buttonhov'"onmouseout="this.className='button'" /></td>
+		  </tr>
+       </table>
+	  </form>	
+	 </div><!--end formstext-->
+	</div><!--end form div-->
+   </div><!--ends login div-->
+</html>

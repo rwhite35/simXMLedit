@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE blogger [
+<!ELEMENT blogger (blog)*>
+<!ELEMENT blog (tdate , thead , tpost)*>
+<!ELEMENT tdate (#PCDATA)>
+<!ELEMENT thead (#PCDATA)>
+<!ELEMENT tpost (#PCDATA)>
+<!ATTLIST blog id ID #REQUIRED>
+]>
+<blogger>
+  <blog id="id_2">
+    <tdate>2015-05-20</tdate>
+    <thead>Example Text Headline Edit</thead>
+    <tpost>This is the example page text.  Here we are testing the linkage between sub sections and Simple CMS.  Example is the second target.  We are updating multiple pages.</tpost>
+  </blog>
+  <blog id="id_3">
+    <tdate>2015-05-29</tdate>
+    <thead>Example Headline Three</thead>
+    <tpost>The example text is our test group.  We want to make sure all methods are available to each sub section page.  We need to add some more text.  And here is yet more text.</tpost>
+  </blog>
+  <blog id="id_4">
+    <tdate>2015-06-15</tdate>
+    <thead>Example Entry Three</thead>
+    <tpost>Now we&amp;#39;re testing editing the examples example text.  We&amp;#39;ve deleted an entry and now were adding a new entry.</tpost>
+  </blog>
+</blogger>

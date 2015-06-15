@@ -1,0 +1,76 @@
+$ID: README 2015-05-26 rwhite@october-design.com $
+#################################################
+Simple XML Text Editor Project
+#################################################
+INTSTALLATION INSTRUCTIONS
+#################################################
+
+This project is self contained. Unpack the GIT repository 
+in your websites root directory and move CMS out of the 
+repo and in to your website root. All required path info 
+assumes CMS is in the root directory.
+
+The directory EXAMPLE is included to help test the 
+installation and provide a valid XML example. You should
+move EXAMPLE out of the repo while testing your install.
+
+The program allows web users to edit text content stored in 
+an XML files. Target XML can be in any sub directory within 
+the same website. However, its recommeded that your XML
+path resembles parentdir/copy/text.xml.  See EXAMPLE dir.
+
+The project requires PHP 5.4, JavaScript 2 and JQuery 1.10. 
+
+PRODUCTION SETTINGS:
+CMS and parent/sub directories need to be owned by the httpd 
+user. Change ownership with something like:
+  
+  user$ sudo chown -R apache:apache cms/
+  user$ sudo chown -R apache:apache parentdir/
+  user$ sudo chmod 777 parentdir/copy/text.xml
+
+
+SOURCE FILE CHANGES:
+There are a couple files that require modifying and one 
+database table is  required to store admin login credentials. 
+The rest of this document identifies what files needs changed.
+
+CMS_CONF.php:  
+Project configuration file included on most script pages. 
+Variables are specific to your production environment. You may 
+want to move this document out of your web sites root directory.  
+If so, pay close attention to any path variables, specially Line 45
+
+CMS_PARENT_DIR.  This constant is the file system path to your 
+CMS directory. On CentOS running a virtual web host, it looks something like:
+
+L45: define("CMS_PARENT_DIR","/var/www/vhosts/your_site/httpdocs/cms");
+
+L32-35 defines contants for database credentials.  This programs requires a
+user to login from sub sections public page.  Note, router.php expects PDO
+driver for database connections/query, L35 DB_HOST is specific to mysql:PDO  
+
+router.php:  
+Manages admin login process and target XML content. Router needs a user 
+table which is NOT INCLUDED.  The user table should have a user name, 
+password and ID of an admin user who can manage page content through 
+the programs User Interface. 
+
+Change Line 89 SELECT statement to reflect your users table name and field labels.
+ 
+The login process expects a cleartext passwords without encryption.  If using 
+encryption, change testmatch function (L39) so it can match the right string. 
+
+The admins user id and name are assigned to a session variable and checked on 
+all admin sub pages.
+
+L105 switch statement requires each web site sub section with XML content 
+defined as a switch case.  Router assigns the parent directory name to a
+session variable which is required through-out the editing session.
+
+error.php and logout.php:
+These files were not included in the project package.  I highly encouraged you to 
+create these files for public facing UI error reporting and logout process.    
+Better to fail gracefully (and securely) then expose important program machinery.  
+Scripts that expect error or logout processing are index.php, index_admin.php, 
+dashboard.php and router.php.
